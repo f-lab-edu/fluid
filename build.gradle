@@ -10,7 +10,7 @@ group = 'com.flab'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	// toolchain : gradle이 빌드 시 직접 특정 버전의 JDK를 설치하도록 하자
+	// toolchain : gradle이 빌드 시 사용할 JDK 버전 명시
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(21)
 	}
@@ -25,6 +25,12 @@ repositories {
 dependencies {
 	// 실행 시 (컴파일 + 런타임)
 	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	implementation 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
 	//테스트 코드 전용 (컴파일)
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
