@@ -1,9 +1,6 @@
 package com.flab.auth.controller;
 
-import com.flab.auth.dto.LogOutRequest;
-import com.flab.auth.dto.LoginRequest;
-import com.flab.auth.dto.LoginResponse;
-import com.flab.auth.dto.SignUpRequest;
+import com.flab.auth.dto.*;
 import com.flab.common.response.SuccessResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/v1/auth")
 public class AuthController {
 
     /**
@@ -48,14 +45,31 @@ public class AuthController {
 
     /**
      * 로그아웃 API 입니다.
-     * @param refreshToken
+     * @param request
      * @return
      */
-    @PostMapping("/log-out")
-    public ResponseEntity<?> logOut(@RequestBody LogOutRequest refreshToken){
+    @PostMapping("/logout")
+    public ResponseEntity<?> logOut(@RequestBody LogOutRequest request){
 
         return ResponseEntity.ok(
                 SuccessResponse.of("정상적으로 로그아웃 되었습니다.")
         );
+    }
+
+    /**
+     * accessToken을 갱신하는 API입니다.
+     * @param request
+     * @return
+     */
+    @PostMapping("/refresh")
+    public ResponseEntity<?> refresh(@RequestBody RefreshRequest request){
+
+        LoginResponse response = new LoginResponse(
+                "new-access-token",
+                "new-refresh-token",
+                "accessToken이 갱신되었습니다."
+        );
+
+        return ResponseEntity.ok(SuccessResponse.of(response));
     }
 }

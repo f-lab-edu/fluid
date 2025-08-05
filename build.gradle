@@ -34,6 +34,8 @@ dependencies {
 
 	//테스트 코드 전용 (컴파일)
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'com.h2database:h2'
+
 
 	// 테스트 코드 실행시에만(컴파일에는 필요x)
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
