@@ -1,5 +1,5 @@
 //gradle 이 빌드할 때 가장 먼저 읽는 파일
-// 프로젝트에 포함시킬 하위 모듈을 gradle 에게 알려줌
+// 프로젝트에 포함시킬 하위 모듈을 gradle 에게 알려
 rootProject.name = 'fluid'
 
 
