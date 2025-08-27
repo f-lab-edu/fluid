@@ -21,61 +21,34 @@ public class AuthController {
 
 
     /**
-     * 회원가입 API 입니다.
+     * 구글 계정으로 회원가입 하는 API 입니다.
      * @param request
      * @return
      */
-    @PostMapping("/sign-up")
-    public ResponseEntity<?> signUp(@Valid @RequestBody SignUpRequest request){
-
-        // 이메일 인증 여부 검사
-        authService.assertEmailVerifiedToken(request.getEmail(), request.getEmailVerificationToken());
-        authService.registerUser(request);
-
+    @PostMapping("/google/sign-up")
+    public ResponseEntity<?> signUpWithGoogle(@Valid @RequestBody GoogleLoginRequest request) {
+        authService.signUpWithGoogle(request.getIdToken()); // 클라이언트 -> google 로그인 -> id token 전달
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(SuccessResponse.of("회원가입에 성공했습니다."));
+                .body(SuccessResponse.of("구글 계정으로 회원가입에 성공했습니다."));
     }
 
     /**
-     * 이메일 인증을 위한 인증 코드를 전송하는 API 입니다.
-     * @param request
-     * @return
+     * 구글 계정으로 로그인하는 API입니다.
      */
-    @PostMapping("/email/send-code")
-    public ResponseEntity<?> sendCode(@Valid @RequestBody EmailSendRequest request){
-
-        authService.sendEmailCode(request.getEmail());
-
-        return ResponseEntity.ok(
-                SuccessResponse.of("인증코드를 전송했습니다.")
-        );
-    }
-
-    /**
-     * 이메일 인증 코드가 정확한지 검증하는 API 입니다.
-     * @param request
-     * @return
-     */
-    @PostMapping("/email/verify")
-    public ResponseEntity<?> verify(@Valid @RequestBody EmailVerifyRequest request) {
-        EmailVerifyResponse res = authService.verifyEmailCode(request.getEmail(), request.getCode());
-        return ResponseEntity.ok(SuccessResponse.of(res));
-    }
-
-
-
-    /**
-     * 로그인 API 입니다.
-     * @param request
-     * @return
-     */
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request){
-
-        LoginResponse response = authService.login(request);
-
+    @PostMapping("/google/login")
+    public ResponseEntity<?> loginWithGoogle(@Valid @RequestBody GoogleLoginRequest request) {
+        LoginResponse response = authService.loginWithGoogle(request.getIdToken());
         return ResponseEntity.ok(SuccessResponse.of(response));
+    }
 
+
+    /**
+     * Access Token 만료 시, token을 갱신하는 api입니다.
+     */
+    @PostMapping("/refresh")
+    public ResponseEntity<?> refresh(@Valid @RequestBody RefreshTokenRequest request) {
+        LoginResponse response = authService.refreshAccessToken(request.getRefreshToken());
+        return ResponseEntity.ok(SuccessResponse.of(response));
     }
 
     /**

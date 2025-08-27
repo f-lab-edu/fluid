@@ -24,8 +24,7 @@ public class User {
     private Long id; // pk
 
     private String email; // 이메일
-    private String nickname; // 닉네임
-    private String password; // 비밀번호
+    private String name; // 이름
     private String role; // 회원 역할
 
     @Enumerated(EnumType.STRING)
